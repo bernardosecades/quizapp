@@ -1,0 +1,148 @@
+openapi: 3.0.0
+info:
+  title: QuizApp API
+  description: API Quiz App
+  version: 1.0.0
+servers:
+  - url: http://localhost:8082/
+    description: Local server
+paths:
+  /v1/answers:
+    post:
+      tags:
+        - Quiz
+      summary: Send answers quiz app
+      description: Send answers quiz app
+      requestBody:
+        description: Array of answers
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnswerRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnswerResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/questions:
+    get:
+      tags:
+        - Quiz
+      summary: Get all questions
+      description: Returns all questions
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnswerResponse'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /healthz:
+    get:
+      tags:
+        - Monitoring
+      summary: Check service status
+      description: Check status of service and infrastructure
+
+      responses:
+        '200':
+          description: OK response
+        '500':
+          description: Something was wrong
+        '429':
+          description: Too many request, Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                detail: Too Many Requests, Rate limit exceeded. Please try again later.
+                statusCode: 429
+
+components:
+  schemas:
+    AnswerRequest:
+      type: array
+      items:
+        type: object
+        properties:
+          questionID:
+            type: string
+            description: ID of the question.
+          value:
+            type: integer
+            description: number option
+        required:
+          - questionID
+          - value
+    AnswerResponse:
+      type: object
+      required:
+        - totalQuestions
+        - correctAnswers
+        - scorePercentage
+        - comparativeScore
+      properties:
+        totalQuestions:
+          type: integer
+          description: total questions of user
+        correctAnswers:
+          type: integer
+          description: total correct answers of user
+        scorePercentage:
+          type: integer
+          description: score percentage
+        comparativeScore:
+          type: integer
+          description: comparative score percentage
+    QuestionResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: ID of the question.
+          text:
+            type: string
+            description: text question
+          options:
+            type: array
+            items:
+              type: string
+              description: options to answer
+    ErrorResponse:
+      type: object
+      required:
+        - detail
+        - statusCode
+      properties:
+        detail:
+          type: string
+          description: detail of error
+        statusCode:
+          type: integer
+          description: http status code
