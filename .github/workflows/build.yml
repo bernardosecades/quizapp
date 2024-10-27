@@ -61,4 +61,4 @@ jobs:
           docker build . -f .docker/cli/Dockerfile -t ${{secrets.DOCKERHUB_USERNAME}}/cli-quizapp:latest
       - name: CLI push the docker image
         id: cli-push-docker-image
-        run: docker push ${{secrets.DOCKERHUB_USERNAME}}/zaslink-notifier:latest
+        run: docker push ${{secrets.DOCKERHUB_USERNAME}}/cli-quizapp:latest

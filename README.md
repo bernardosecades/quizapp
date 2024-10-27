@@ -1,3 +1,5 @@
+[![Build](https://github.com/bernardosecades/quizapp/actions/workflows/build.yml/badge.svg)](https://github.com/bernardosecades/quizapp/actions/workflows/build.yml)
+
 # Overview of the QuizApp
 
 - API Server:
@@ -96,4 +98,4 @@ Run CLI application:
 - See coverage: `make coverage`
 - Run Swagger UI - open api v3: `make run-openapi-ui`
 - You have docker files to API and CLI so if you dont have installed go 1.23 you can create containers in your machine
-- We are using github actions to execute: linter and tests before upload docker image in docker hub account 
+- We are using github actions to execute: linter and tests before upload docker image in docker hub account (https://hub.docker.com/u/bernardosecades)
